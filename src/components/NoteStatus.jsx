@@ -1,18 +1,18 @@
+import React from "react";
 import Message from "./Message";
 
 function NoteStatus({ notes }) {
-  // dervied state :
+  // drived state: can be use from created state
   const allNotes = notes.length;
-  const completedNotes = notes.filter((n) => n.completed).length;
+  const completedNotes = notes.filter((note) => note.completed).length;
   const unCompletedNotes = allNotes - completedNotes;
-
+// message have children props (p tag is children props that added between open and close tag )
   if (!allNotes)
     return (
-      <Message>
-        ℹ️ <span>No Notes has already been added.</span> <span>🧐</span>
+      <Message text={"no note has already been added"}>
+        <p>done</p>
       </Message>
     );
-
   return (
     <ul className="note-status">
       <li>

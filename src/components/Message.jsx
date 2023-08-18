@@ -1,7 +1,11 @@
-function Message({ children }) {
-  return <div>{children}</div>;
+import React from "react";
+
+function Message({ text, children }) {
+  return (
+    <p>
+      {text} - {children}
+    </p>
+  );
 }
 
 export default Message;
-
-// children prop =>

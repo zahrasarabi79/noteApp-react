@@ -4,37 +4,32 @@ import AddNewNote from "./components/AddNewNote";
 import NoteList from "./components/NoteList";
 import NoteStatus from "./components/NoteStatus";
 import NoteHeader from "./components/NoteHeader";
-
 function App() {
   const [notes, setNotes] = useState([]);
   const [sortBy, setSortBy] = useState("latest");
 
-  const hanldeAddNote = (newNote) => {
-    setNotes((prevNotes) => [...prevNotes, newNote]);
+  const handleAddNote = (newNote) => {
+    setNotes((prevNote) => [...prevNote, newNote]);
   };
-
   const handleDeleteNote = (id) => {
-    // const filteredNotes = notes.filter((n) => n.id !== id);
-    // setNotes(filteredNotes);
-    setNotes((prevNotes) => prevNotes.filter((n) => n.id !== id));
+    // const filteredNote = notes.filter((n) => n.id !== id);
+    // setNotes(filteredNote );
+    // best way of filter notes
+    setNotes((prev) => prev.filter((n) => n.id !== id));
   };
-
-  const handleCompleteNote = (e) => {
+  const handleCompelteTask = (e) => {
     const noteId = Number(e.target.value);
-    // const newNotes = notes.map((note) =>
-    //   note.id === noteId ? { ...note, completed: !note.completed } : note
+    // const newNote = notes.map((note) =>
+    //   note.id === noteId ? { ...note, completed: !completed } : note
     // );
-    // setNotes(newNotes);
-
-    setNotes((prevNotes) =>
-      prevNotes.map((note) =>
+    // setNotes(newNote);
+    // best way of map on prevnotes
+    setNotes((prevNote) =>
+      prevNote.map((note) =>
         note.id === noteId ? { ...note, completed: !note.completed } : note
       )
     );
   };
-
-
-
   return (
     <div className="container">
       <NoteHeader
@@ -43,14 +38,14 @@ function App() {
         onSort={(e) => setSortBy(e.target.value)}
       />
       <div className="note-app">
-        <AddNewNote onAddNote={hanldeAddNote} />
+        <AddNewNote onAddNote={handleAddNote} />
         <div className="note-container">
           <NoteStatus notes={notes} />
           <NoteList
             notes={notes}
             sortBy={sortBy}
             onDelete={handleDeleteNote}
-            onComplete={handleCompleteNote}
+            compelteTask={handleCompelteTask}
           />
         </div>
       </div>

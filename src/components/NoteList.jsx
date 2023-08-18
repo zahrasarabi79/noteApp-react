@@ -1,20 +1,23 @@
-function NoteList({ notes, onDelete, onComplete, sortBy }) {
-  
+import React, { useState } from "react";
+import { TiDelete } from "react-icons/ti";
+
+function NoteList({ notes, onDelete, compelteTask, sortBy }) {
   let sortedNotes = notes;
-  if (sortBy === "earliest")
+  if (sortBy === "latest") {
     sortedNotes = [...notes].sort(
-      (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-    ); // a -b  => a > b ? 1 : -1
-
-  if (sortBy === "latest")
-    sortedNotes = [...notes].sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    ); // b -a  => a > b ? -1 : 1
-
-  if (sortBy === "completed")
-    sortedNotes = [...notes].sort(
-      (a, b) => Number(a.completed) - Number(b.completed)
+      (a, b) => new Date(b.createsAt) - new Date(a.createsAt)
     );
+  }
+  if (sortBy === "earliest") {
+    sortedNotes = [...notes].sort(
+      (a, b) => new Date(a.createsAt) - new Date(b.createsAt)
+    );
+  }
+  if (sortBy === "completed") {
+    sortedNotes = [...notes].sort(
+      (a, b) => new Date(a.completed) - new Date(b.completed)
+    );
+  }
 
   return (
     <div className="note-list">
@@ -23,7 +26,7 @@ function NoteList({ notes, onDelete, onComplete, sortBy }) {
           key={note.id}
           note={note}
           onDelete={onDelete}
-          onComplete={onComplete}
+          compelteTask={compelteTask}
         />
       ))}
     </div>
@@ -32,12 +35,8 @@ function NoteList({ notes, onDelete, onComplete, sortBy }) {
 
 export default NoteList;
 
-function NoteItem({ note, onDelete, onComplete }) {
-  const options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
+const NoteItem = ({ note, onDelete, compelteTask }) => {
+  const option = { year: "numeric", month: "long", day: "numeric" };
 
   return (
     <div className={`note-item ${note.completed ? "completed" : ""}`}>
@@ -47,20 +46,22 @@ function NoteItem({ note, onDelete, onComplete }) {
           <p className="desc">{note.description}</p>
         </div>
         <div className="actions">
-          <button onClick={() => onDelete(note.id)}>❌</button>
+          <button onClick={() => onDelete(note.id)}>
+            <TiDelete fontSize={28} color="red" />
+          </button>
           <input
             type="checkbox"
-            name={note.id}
             id={note.id}
+            name={note.id}
             value={note.id}
-            checked={note.completed}
-            onChange={onComplete}
+            checked={note.completed} //ckecked box will be true or false base on value in note.completed(its default value is false)
+            onChange={compelteTask}
           />
         </div>
       </div>
-      <p className="note-item__footer">
-        {new Date(note.createdAt).toLocaleDateString("en-US", options)}
-      </p>
+      <div className="note-item__footer">
+        {new Date(note.createsAt).toLocaleDateString("en-uS", option)}
+      </div>
     </div>
   );
-}
+};
